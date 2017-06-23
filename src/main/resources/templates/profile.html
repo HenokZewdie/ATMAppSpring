@@ -25,13 +25,14 @@
 
         </tr>
     </div>
-    <div th:each="test : ${withdra}">
+
+    <div th:each="with : ${withdra}">
 
         <tr>
-            <td th:text = "${#dates.format(test.date, 'MMM-dd-yyyy')}"></td>
-            <td th:text = "${test.fullName}"></td>
-            <td><p th:text = "${test.accountNo}"></p></td>
-            <td th:text = "${test.balance}"></td>
+            <td th:text = "${#dates.format(with.date, 'MMM-dd-yyyy')}"></td>
+            <td th:text = "${with.fullName}"></td>
+            <td><p th:text = "${with.accountNo}"></p></td>
+            <td th:text = "${with.balance}"></td>
 
 
         </tr>

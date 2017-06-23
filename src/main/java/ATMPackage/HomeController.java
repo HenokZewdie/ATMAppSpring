@@ -18,6 +18,7 @@ public class HomeController {
     CustomerRepository customerRepository;
     WithdrawalRepository withdrawalRepository;
     Customer customer = new Customer();
+    double oldBalance= 0.0;
     /*REGISTER*/
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -52,16 +53,14 @@ public class HomeController {
     @RequestMapping(value = "/withdrawal", method = RequestMethod.POST)
     public String processWithdraw(@ModelAttribute Customer customer, Model model){
         customer.setDate(new Date());
-        customer.getAccountNo();
-        customer.getBalance();
-        customer.setBalance(customer.getBalance()-customer.getAmount());
-
+        oldBalance = customer.getInitialDeposit();
+        customer.setAccountNo(customer.getAccountNo());
+        customer.setBalance((oldBalance-customer.getAmount()));
+        customerRepository.save(customer);
         return "redirect:/displayWith";
     }
     @RequestMapping(value = "/displayWith", method = RequestMethod.GET)
     public String WithdrawaltoSend(@ModelAttribute Customer customer, Model model){
-
-        withdrawalRepository.save(customer);
         Iterable<Customer> withdrawal = customerRepository.findAll();
         model.addAttribute("withdra", withdrawal);
         return "profile";
@@ -73,4 +72,21 @@ public class HomeController {
         model.addAttribute(new Customer());
         return "/deposit";
     }
+    @RequestMapping(value = "/deposit", method = RequestMethod.POST)
+    public String processDepo(@ModelAttribute Customer customer, Model model){
+        customer.setDate(new Date());
+        customer.setAccountNo(customer.getAccountNo());
+        oldBalance = customer.getInitialDeposit();
+        customer.setBalance((oldBalance +customer.getAmount()));
+        customerRepository.save(customer);
+        return "redirect:/displayDepo";
+    }
+    @RequestMapping(value = "/displayDepo", method = RequestMethod.GET)
+    public String DeposittoSend(@ModelAttribute Customer customer, Model model){
+        Iterable<Customer> withdrawal = customerRepository.findAll();
+        model.addAttribute("withdra", withdrawal);
+        return "profile";
+
+    }
+
 }
