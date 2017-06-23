@@ -16,7 +16,8 @@ import java.util.Date;
 public class HomeController {
     @Autowired
     CustomerRepository customerRepository;
-
+    WithdrawalRepository withdrawalRepository;
+    Customer customer = new Customer();
     /*REGISTER*/
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -39,13 +40,37 @@ public class HomeController {
         Iterable<Customer> values = customerRepository.findAll();
         model.addAttribute("values", values);
         return "profile";
-        /*if(values!=null){
-            model.addAttribute("values", values);
-            return "profile";
-        }
-        else*/
 
+    }
 
+    @RequestMapping(value = "/withdrawal", method = RequestMethod.GET)
+    public String withdraw(Model model){
+        model.addAttribute(new Customer());
+        return "withdrawal";
+    }
 
+    @RequestMapping(value = "/withdrawal", method = RequestMethod.POST)
+    public String processWithdraw(@ModelAttribute Customer customer, Model model){
+        customer.setDate(new Date());
+        customer.getAccountNo();
+        customer.getBalance();
+        customer.setBalance(customer.getBalance()-customer.getAmount());
+
+        return "redirect:/displayWith";
+    }
+    @RequestMapping(value = "/displayWith", method = RequestMethod.GET)
+    public String WithdrawaltoSend(@ModelAttribute Customer customer, Model model){
+
+        withdrawalRepository.save(customer);
+        Iterable<Customer> withdrawal = customerRepository.findAll();
+        model.addAttribute("withdra", withdrawal);
+        return "profile";
+
+    }
+
+    @RequestMapping(value = "/deposit", method = RequestMethod.GET)
+    public String deposit(Model model){
+        model.addAttribute(new Customer());
+        return "/deposit";
     }
 }
