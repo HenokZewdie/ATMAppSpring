@@ -21,8 +21,14 @@ public class HomeController {
     double oldBalance= 0.0;
     /*REGISTER*/
 
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String toGet(Model model){
+    public String Login(Model model){
         model.addAttribute(new Customer());
         return "/register";
     }
