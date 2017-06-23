@@ -26,7 +26,7 @@ public class Security extends WebSecurityConfigurerAdapter{
                 .authorizeRequests().anyRequest().authenticated();
         http
                 .formLogin().failureUrl("/login?error")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/profile")
                 .loginPage("/login")
                 .permitAll()
                 .and()

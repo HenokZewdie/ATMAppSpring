@@ -3,10 +3,12 @@ package ATMPackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
 import java.util.Date;
 
 /**
@@ -16,14 +18,41 @@ import java.util.Date;
 public class HomeController {
     @Autowired
     CustomerRepository customerRepository;
-    WithdrawalRepository withdrawalRepository;
+    userRepository userRepo;
     Customer customer = new Customer();
     double oldBalance= 0.0;
     /*REGISTER*/
 
 
-    @RequestMapping("/login")
-    public String login() {
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String getHome(Model model, String error, String logout){
+        model.addAttribute(new User());
+        return "login";
+    }
+
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    public String processingLogin(Model model, @Valid User user, BindingResult bindingResult){
+
+
+       /* Iterable<User> values = userRepo.findByUserName(user.getUserName());
+        if(values!=null){return "display";}
+        else {return "login";}*/
+        if (bindingResult.hasErrors()) {
+            return "login";
+        }
+
+        User user1 = new User();
+        if (userRepo.existsByUserName(user.getUserName())) {
+
+            user1 = userRepo.findByUserName(user.getUserName());
+        }
+
+        if (user1.getPassword().equals(user.getPassword())){
+            userRepo.save(user);
+            userRepo.save(user);
+            return "redirect:/display";
+        }
+        model.addAttribute("user", new User());
         return "login";
     }
 
