@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html >
+<head lang="en" xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+    <h1>Login</h1>
+    <form action="#" th:action="@{/home}" th:object="${customer}" method="post">
+<div class="form-group">
+    <label for="accountNo">Account Number</label>
+    <input type="text" th:field="*{accountNo}" class="form-control" id="accountNo" placeholder="Account Number Here" />
+</div>
+<div class="form-group">
+    <label for="pin">PIN</label>
+    <input type="text" th:field="*{pin}" class="form-control" id="pin" placeholder="4 Digit Pin number" />
+</div>
+
+<button type="submit" class="btn btn-default">Submit</button>
+        <br><br>
+<a href="register" >New User?</a>
+    </form>
+</div>
+</body>
+</html>

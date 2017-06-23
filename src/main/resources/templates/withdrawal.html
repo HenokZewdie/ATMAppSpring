@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html >
+<head lang="en" xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+    <h1>Deposit</h1>
+    <form action="#" th:action="@{/deposit}" th:object="${deposit}" method="post">
+        <div class="form-group">
+            <label for="amount">How much</label>
+            <input type="text" th:field="*{amount}" class="form-control" id="amount" placeholder="Right day" />
+        </div>
+
+        <button type="submit" class="btn btn-default">Withdraw</button>
+
+
+    </form>
+</div>
+</body>
+</html>
